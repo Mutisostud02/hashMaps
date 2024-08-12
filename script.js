@@ -82,10 +82,42 @@ function HashMap() {
     }
     return false;
     }
-    return {hash, set, get, has, remove, length, clear, arr};
+    function keys() {
+        let keyArr = [];
+        for (let i = 0; i < arr.length; i++) {
+            if(arr[i] !== undefined && arr[i][0] !== undefined) {
+                keyArr.push(arr[i][0][0]);                    
+            }
+        }
+        return keyArr;
+
+    }
+    function values() {
+        let keyArr = [];
+        for (let i = 0; i < arr.length; i++) {
+            if(arr[i] !== undefined && arr[i][0] !== undefined) {
+                keyArr.push(arr[i][0][1]);                    
+            }
+        }
+        return keyArr;
+
+    }
+    function entries() {
+        let keyArr = keys();
+        let valArr = values();
+        let results = [];
+        for (let i = 0; i < keyArr.length; i++) {
+            for (let j = 0; j < valArr.length; j++) {
+                if (i === j) {
+                    results.push([keyArr[i], valArr[j]]);
+                }
+            }
+        }
+        return results;
+    }
+    return {hash, set, get, has, remove, length, clear, keys, values, entries, arr};
 }
 const myHashCode = HashMap();
-myHashCode.set('chris', 'intelligent')
 myHashCode.set('becky', 'experimentive')
 myHashCode.set('bryan', 'observative')
 myHashCode.set('cate', 'adventurist')
@@ -93,10 +125,8 @@ myHashCode.set('sele', 'socialism')
 myHashCode.set('bonnie', 'strategic')
 myHashCode.set('jossie', 'connected')
 myHashCode.set('joyce','understanding')
-myHashCode.set('beryl', 'fine gyal')
 console.log(myHashCode.arr)
 console.log(myHashCode.length());
-myHashCode.clear()
-myHashCode.set('chris','name')
-console.log(myHashCode.hash('chris'))
-console.log(myHashCode.arr)
+console.log(myHashCode.keys())
+console.log(myHashCode.values())
+console.log(myHashCode.entries());
