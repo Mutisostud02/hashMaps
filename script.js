@@ -1,14 +1,38 @@
 function HashMap() {
     let arr = new Array(16);
+    let loadFactor = 0.75;
+    let entryNumber = 0;
+    function loadExceeded() {
+            return entryNumber >= arr.length * loadFactor;
+    }
+    function resize() {
+        let oldArr  = arr;
+        arr = new Array(oldArr.length * 2);
+        for (let i = 0; i < arr.length; i++) {
+            arr[i] = [];
+        }
+        entryNumber = 0;
+        for (let i = 0; i < oldArr.length; i++) {
+            if(oldArr[i] !== undefined) {
+            for (let j = 0; j < oldArr[i].length; j++) {
+                    set(oldArr[i][j][0], oldArr[i][j][1]);
+        }
+    }
+    }
+    
+    }
     function hash(key) {
-        let hashCode = 0;
-        let primeNumber = 31;
+        let hashCode = 5381;
+        let c = 0.049;
         for (let i = 0; i < key.length; i++) {
-            hashCode = (hashCode * primeNumber + key.charCodeAt(i)) % 16;
+            hashCode = (hashCode * 31 + key.charCodeAt(i)) % arr.length;
         }
         return hashCode;
     }
     function set(key, value) {
+        if (loadExceeded()) {
+            resize();
+        }
         let index = hash(key);
         if(!arr[index]) {
             arr[index] = [];
@@ -26,6 +50,8 @@ function HashMap() {
             return;
         }
         arr[index].push([key, value]);
+        console.log(arr)
+        entryNumber++;
         return true;
     }
     function get(key) {
@@ -80,6 +106,7 @@ function HashMap() {
                     arr[i].length = 0;                    
                 }
     }
+    entryNumber = 0;
     return false;
     }
     function keys() {
@@ -115,18 +142,14 @@ function HashMap() {
         }
         return results;
     }
+
     return {hash, set, get, has, remove, length, clear, keys, values, entries, arr};
 }
-const myHashCode = HashMap();
-myHashCode.set('becky', 'experimentive')
-myHashCode.set('bryan', 'observative')
-myHashCode.set('cate', 'adventurist')
-myHashCode.set('sele', 'socialism')
-myHashCode.set('bonnie', 'strategic')
-myHashCode.set('jossie', 'connected')
-myHashCode.set('joyce','understanding')
-console.log(myHashCode.arr)
-console.log(myHashCode.length());
-console.log(myHashCode.keys())
-console.log(myHashCode.values())
-console.log(myHashCode.entries());
+const test = HashMap();
+test.set('apple', 'red');
+test.set('banana', 'yellow');
+test.set('carrot', 'orange');
+test.set('dog', 'brown');
+test.set('elephant', 'gray');
+test.set('frog', 'green');
+console.log(test.arr);
